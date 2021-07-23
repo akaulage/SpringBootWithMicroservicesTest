@@ -14,5 +14,18 @@ spring:
     password: root
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+  application:    #aplication name
+    name: DEPARTMENT-SERVICE
+
+# Register with Eureka Server
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
 
 

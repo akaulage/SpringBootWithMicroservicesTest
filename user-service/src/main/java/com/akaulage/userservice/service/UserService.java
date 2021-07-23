@@ -32,7 +32,8 @@ public class UserService {
 
         //Restemplate call for getting object from Deparment Service
 
-        Department department=restTemplate.getForObject("http://localhost:8090/departments/"+user.getDepartmentId(),Department.class);
+        //Department department=restTemplate.getForObject("http://localhost:8090/departments/"+user.getDepartmentId(),Department.class);
+        Department department=restTemplate.getForObject("http://DEPARTMENT-SERVICE/departments/"+user.getDepartmentId(),Department.class);
         template.setUser(user);
         template.setDepartment(department);
         return template;
