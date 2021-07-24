@@ -12,10 +12,38 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
            - Path=/users/**
+          filters:            #fallBack Method configuration using circuit breaker
+            - name: CircuitBreaker
+              arges:
+                - name: USER-SERVICE
+                  fallbacuri: forward:/userServiceFallBack
         - id: DEPARTMENT-SERVICE
           uri: lb://DEPARTMENT-SERVICE
           predicates:
            - Path=/departments/**
+          filters:
+            - name: CircuitBreaker
+              arges:
+                - name: DEPARTMENT-SERVICE
+                  fallbacuri: forward:/departmentServiceFallBack
+
+  # Hystrix configuration
+
+  hystrix:
+    command:
+      fallbackcmd:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 4000  #4 seconds
+
+ # configuration for Actuator
+
+ management:
+   endpoints:
+     web:
+       exposure:
+         include: hystrix.stream
 
 #Api gateway Register with Eureka server
 eureka:
@@ -26,3 +54,5 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
+
+
