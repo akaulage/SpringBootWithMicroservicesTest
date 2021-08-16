@@ -27,7 +27,7 @@ spring:
                 name: DEPARTMENT-SERVICE
                 fallbackuri: forward:/departmentServiceFallBack
 
-##
+# Hystrix Configuration for whenever one of service is down it will call fallback method
 hystrix:
   command:
     fallbackcmd:
@@ -36,7 +36,7 @@ hystrix:
           thread:
             timeoutInMilliseconds: 4000
 
-
+#Configuration for actuator,we can use this info in hystrix dashboard
 management:
   endpoints:
     web:
