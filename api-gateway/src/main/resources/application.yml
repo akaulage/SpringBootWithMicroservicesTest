@@ -27,7 +27,7 @@ spring:
                 name: DEPARTMENT-SERVICE
                 fallbackuri: forward:/departmentServiceFallBack
 
-
+##
 hystrix:
   command:
     fallbackcmd:
