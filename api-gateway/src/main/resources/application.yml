@@ -1,58 +1,53 @@
 server:
-  port: 8092
+  port: 8093
 
 spring:
   application:
     name: API-GATEWAY
 
-  cloud:                #Gateway Configuration
+  cloud:
     gateway:
       routes:
         - id: USER-SERVICE
           uri: lb://USER-SERVICE
           predicates:
-           - Path=/users/**
-          filters:            #fallBack Method configuration using circuit breaker
+            - Path=/users/**
+          filters:
             - name: CircuitBreaker
-              arges:
-                - name: USER-SERVICE
-                  fallbacuri: forward:/userServiceFallBack
+              args:
+                name: USER-SERVICE
+                fallbackuri: forward:/userServiceFallBack
         - id: DEPARTMENT-SERVICE
           uri: lb://DEPARTMENT-SERVICE
           predicates:
-           - Path=/departments/**
+            - Path=/departments/**
           filters:
             - name: CircuitBreaker
-              arges:
-                - name: DEPARTMENT-SERVICE
-                  fallbacuri: forward:/departmentServiceFallBack
+              args:
+                name: DEPARTMENT-SERVICE
+                fallbackuri: forward:/departmentServiceFallBack
 
-  # Hystrix configuration
 
-  hystrix:
-    command:
-      fallbackcmd:
-        execution:
-          isolation:
-            thread:
-              timeoutInMilliseconds: 4000  #4 seconds
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
 
- # configuration for Actuator
 
- management:
-   endpoints:
-     web:
-       exposure:
-         include: hystrix.stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
 
-#Api gateway Register with Eureka server
 eureka:
   client:
-    register-with-eureka: true
     fetch-registry: true
+    register-with-eureka: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
-
-
